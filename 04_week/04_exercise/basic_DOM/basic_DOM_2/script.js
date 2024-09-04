@@ -14,14 +14,16 @@ const button = document.querySelector("#addFruitBtn");
 const textField = document.querySelector("#fruitInput")
 const parentElement = document.querySelector("#fruitList");
 
+// buttons and other elements on html etc
+
 
 
 const myFunction = () => {
-    const childElement = document.createElement("li")
-    childElement.textContent = textField.value;
-    parentElement.appendChild(childElement);
-    textField.value = "";
+    const childElement = document.createElement("li") // creates new element li
+    childElement.textContent = textField.value; // writes into him the text from fext field
+    parentElement.appendChild(childElement); // adds new entry into the list
+    textField.value = ""; // cleans teh text field
 }
 
-button.addEventListener("click", myFunction);
+button.addEventListener("click", myFunction); // waits for the click
 
