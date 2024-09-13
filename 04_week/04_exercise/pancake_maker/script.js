@@ -31,66 +31,38 @@ function orderInformation(customerName, pancakeDetails, deliveryOption, totalPri
     this.pancakeDetails = pancakeDetails;
     this.deliveryOption = deliveryOption;
     this.totalPrice = totalPrice;
+
+    this.getOrderInformationCustomerNameString = getOrderInformationCustomerNameString;
+    this.getOrderInformationPancakeTypeString = getOrderInformationPancakeTypeString;
+    this.getOrderInfromationToppingsAndExtrasString = getOrderInfromationToppingsAndExtrasString;
+    this.getOrderInformationDeliveryString = getOrderInformationDeliveryString;
+    this.getOrderInformationTotalPriceString = getOrderInformationTotalPriceString;
+    this.getOrderInformationString = getOrderInformationString;
 }
+
 
 let currentOrder;
 let allOrders = [];
 let allAdditionalSelectors = [nutsToppingSelector, bananasToppingSelector, syrupToppingSelector, creamExtraSelector, iceExtraSelector];
 let totalPrice = 5;
 
-const updateOrderData = () => {
-    let pancakeDetails = [typeSelector.value];
-    for (let selector of allAdditionalSelectors) (selector.checked) && pancakeDetails.push(selector.id);
-
-    let chosenDeliveryOption;
-    for (let deliveryOption of deliveryOptions) (deliveryOption.checked) && (chosenDeliveryOption = deliveryOption.id);
-
-    currentOrder.customerName = customerName.value;
-    currentOrder.pancakeDetails = pancakeDetails;
-    currentOrder.deliveryOption = chosenDeliveryOption;
-    currentOrder.totalPrice = totalPrice;
+function getOrderInformationCustomerNameString() {
+    return this.customerName;
 }
 
-const createOrder = () => {
-    currentOrder = new orderInformation;
-    updateOrderData();
-}
-
-const updatePrice = () => {
-    totalPrice = parseInt(typeSelector.value, 10); // getting the base price
-
-    for (let selector of allAdditionalSelectors) (selector.checked) && (totalPrice += parseInt(selector.value, 10));  // loop through all the selectors
-
-    for (let deliveryOption of deliveryOptions) (deliveryOption.checked) && (totalPrice += parseInt(deliveryOption.value, 10));
-
-    for (let totalPriceField of totalPriceFields) totalPriceField.textContent = '$' + totalPrice;
-
-    updateOrderData();
-}
-
-const cleanUpInfoDiv = () => {
-
-    while (orderInfromationSpace.firstChild) {
-        orderInfromationSpace.removeChild(orderInfromationSpace.firstChild);
-    }
-
-}
-
-const getOrderInformationCustomerNameString = (orderInQuestion) => orderInQuestion.customerName;
-
-const getOrderInformationPancakeTypeString = (orderInQuestion) => {
-    switch (orderInQuestion.pancakeDetails[0]) {
+function getOrderInformationPancakeTypeString() {
+    switch (this.pancakeDetails[0]) {
         case ("5"): return "Classic";
         case ("6"): return "Chocolate";
         case ("7"): return "Blueberry";
     };
 }
 
-const getOrderInfromationToppingsAndExtrasString = (orderInQuestion) => {
+function getOrderInfromationToppingsAndExtrasString() {
 
     let infromationString = "";
 
-    for (let selector of orderInQuestion.pancakeDetails.slice(1)) {
+    for (let selector of this.pancakeDetails.slice(1)) {
         switch (selector) {
             case ("nuts"): {
                 infromationString += "\nNuts";
@@ -117,33 +89,73 @@ const getOrderInfromationToppingsAndExtrasString = (orderInQuestion) => {
     return infromationString;
 }
 
-const getOrderInformationDeliveryString = (orderInQuestion) => {
-    switch (orderInQuestion.deliveryOption) {
+function getOrderInformationDeliveryString() {
+    switch (this.deliveryOption) {
         case ("eatIn"): return "Eat In";
         case ("pickUp"): return "Pick Up";
         case ("delivery"): return "Delivery";
     }
 }
 
-const getOrderInformationTotalPriceString = (orderInQuestion) => ("$" + orderInQuestion.totalPrice);
+function getOrderInformationTotalPriceString() {
+    return ("$" + this.totalPrice);
+}
 
-const getOrderInformationString = (orderInQuestion) => {
-    let infromationString = "Customer Name: " + getOrderInformationCustomerNameString(orderInQuestion) + " \nPancake type: " +
-        getOrderInformationPancakeTypeString(orderInQuestion) + "\nToppings and Extras: " + getOrderInfromationToppingsAndExtrasString(orderInQuestion) +
-        "\nDelivery option: " + getOrderInformationDeliveryString(orderInQuestion) +
-        "\nTotal price: " + getOrderInformationTotalPriceString(orderInQuestion);
+function getOrderInformationString() {
+    let infromationString = "Customer Name: " + orderInQuestion.getOrderInformationCustomerNameString() + " \nPancake type: " +
+        orderInQuestion.getOrderInformationPancakeTypeString() + "\nToppings and Extras: " + orderInQuestion.getOrderInfromationToppingsAndExtrasString() +
+        "\nDelivery option: " + orderInQuestion.getOrderInformationDeliveryString() +
+        "\nTotal price: " + orderInQuestion.getOrderInformationTotalPriceString();
 
     return infromationString;
+}
+
+const updateOrderData = () => {
+    let pancakeDetails = [typeSelector.value];
+    for (let selector of allAdditionalSelectors) (selector.checked) && pancakeDetails.push(selector.id);
+
+    let chosenDeliveryOption;
+    for (let deliveryOption of deliveryOptions) (deliveryOption.checked) && (chosenDeliveryOption = deliveryOption.id);
+
+    currentOrder.customerName = customerName.value;
+    currentOrder.pancakeDetails = pancakeDetails;
+    currentOrder.deliveryOption = chosenDeliveryOption;
+    currentOrder.totalPrice = totalPrice;
+}
+
+const updatePrice = () => {
+    totalPrice = parseInt(typeSelector.value, 10); // getting the base price
+
+    for (let selector of allAdditionalSelectors) (selector.checked) && (totalPrice += parseInt(selector.value, 10));  // loop through all the selectors
+
+    for (let deliveryOption of deliveryOptions) (deliveryOption.checked) && (totalPrice += parseInt(deliveryOption.value, 10));
+
+    for (let totalPriceField of totalPriceFields) totalPriceField.textContent = '$' + totalPrice;
+
+    updateOrderData();
+}
+
+const cleanUpInfoDiv = () => {
+
+    while (orderInfromationSpace.firstChild) {
+        orderInfromationSpace.removeChild(orderInfromationSpace.firstChild);
+    }
+
+}
+
+const createOrder = () => {
+    currentOrder = new orderInformation;
+    updateOrderData();
 }
 
 const printOrderInformationIntoDiv = (orderInQuestion, divCreated) => {
 
     let firstColumn = ["Customer Name: ", "Pancake Type: ", "Toppings and Extras", "Delivery: ", "Total Price: "];
-    let secondColumn = [getOrderInformationCustomerNameString(orderInQuestion),
-    getOrderInformationPancakeTypeString(orderInQuestion),
-    getOrderInfromationToppingsAndExtrasString(orderInQuestion),
-    getOrderInformationDeliveryString(orderInQuestion),
-    getOrderInformationTotalPriceString(orderInQuestion)];
+    let secondColumn = [orderInQuestion.getOrderInformationCustomerNameString(),
+    orderInQuestion.getOrderInformationPancakeTypeString(),
+    orderInQuestion.getOrderInfromationToppingsAndExtrasString(),
+    orderInQuestion.getOrderInformationDeliveryString(),
+    orderInQuestion.getOrderInformationTotalPriceString()];
 
     let tableRow, tableCell;
 
