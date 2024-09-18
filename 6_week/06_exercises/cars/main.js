@@ -8,9 +8,10 @@ priceText = document.querySelector("#carPrice");
 colorText = document.querySelector("#carColor");
 
 searchResult = document.querySelector("#search-result");
-table = document.querySelector("#table-body");
+tableBody = document.querySelector("#table-body");
 
-console.log(table);
+
+const platesFormatRegex = /^[a-zA-Z]{3}\d{3}$/;
 
 
 class Car {
@@ -27,7 +28,7 @@ class Car {
 let cars = [];
 
 const searchCar = () => {
-    if (true) {
+    if (platesFormatRegex.test(searchText.value)) {
         let foundCar = cars.find((car) => car.license == searchText.value);
         searchResult.textContent = foundCar ? ("Car found, make: " + foundCar.maker + ", model: " + foundCar.model + ", owner: " + foundCar.owner) : "No results found";
 
@@ -43,7 +44,7 @@ const addCarToTable = (car) => {
         tableCell.textContent = value;
         tableRow.appendChild(tableCell);
     }
-    table.appendChild(tableRow);
+    tableBody.appendChild(tableRow);
 
 }
 
