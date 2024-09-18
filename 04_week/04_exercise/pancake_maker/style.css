@@ -50,8 +50,30 @@ body {
   align-items: center;
   font-size: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  animation-name: shake;
+  animation-duration: 4s;
 }
 
 #orderInformation {
   white-space: pre-wrap;
 }
+
+@media only screen and (max-width: 375px) {}
+
+
+/*
+@keyframes shake {
+  0% {
+    background-color: red;
+  }
+
+  50% {
+    background-color: green;
+  }
+
+  100% {
+    background-color: yellow;
+  }
+
+}
+*/

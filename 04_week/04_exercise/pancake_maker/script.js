@@ -132,7 +132,10 @@ const updatePrice = () => {
 
     for (let totalPriceField of totalPriceFields) totalPriceField.textContent = '$' + totalPrice;
 
+    //totalPriceFields[0].classList.toggle("shake");
+
     updateOrderData();
+
 }
 
 const cleanUpInfoDiv = () => {

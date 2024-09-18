@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>cars</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" , href="style.css">
+    <script src="main.js" defer></script>
+
+</head>
+
+<body>
+    <main>
+        <div class="search-div">
+            <h2>Search by license number</h2>
+            <label for="searchBar">License number</label>
+            <input type="text" id="searchBar" name="searchBar">
+            <button type="submit" id="search">Search</button>
+        </div>
+        <div id="search-result">
+
+        </div>
+
+        <div class="main-body">
+            <div class="car-add-form">
+                <h2>Insert car data</h2>
+                <form>
+                    <label for="licenseNumber">License number</label>
+                    <input type="text" id="licenseNumber" name="licenseNumber">
+
+                    <label for="carMaker">Car maker</label>
+                    <input type="text" id="carMaker" name="carMaker">
+
+                    <label for="carModel">Car model</label>
+                    <input type="text" id="carModel" name="carModel">
+
+                    <label for="carOwner">Car owner</label>
+                    <input type="text" id="carOwner" name="carOwner">
+
+                    <label for="carPrice">Car price</label>
+                    <input type="text" id="carPrice" name="carPrice">
+
+                    <label for="carColor">Car color</label>
+                    <input type="text" id="carColor" name="carColor">
+
+                    <button type="submit" id="addCar">Add car</button>
+                    <button type="submit" id="reset">Reset</button>
+
+                </form>
+            </div>
+            <div id="car-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>LICENSE</th>
+                            <th>MAKER</th>
+                            <th>MODEL</th>
+                            <th>OWNER</th>
+                            <th>PRICE</th>
+                            <th>COLOR</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+
+
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </main>
+
+</body>
+
+
+</html>

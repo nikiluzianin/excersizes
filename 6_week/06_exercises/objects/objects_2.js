@@ -1,13 +1,10 @@
 /* Task 1
-Create a JavaScript object named `library` that represents a collection of books.
-Each book should have properties for `title`, `author`, and `yearPublished`.
+Create a JavaScript array named `library` that represents a collection of books.
+Each book should have properties for `title`, `author`, and `yearPublished`. 
 Add at least two book objects to this collection.
 */
 
 // Your code here
-
-
-
 
 /* Task 2
 Access the `title` of the first book in the `library` collection and log it to the console.
