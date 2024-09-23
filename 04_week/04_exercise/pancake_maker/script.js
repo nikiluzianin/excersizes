@@ -23,7 +23,12 @@ const allOrdersButton = document.querySelector('#allOrders');
 
 const orderInfromationSpace = document.querySelector('#orderInformation');
 
+const priceBanner = document.querySelector(".price-banner");
 
+/*const priceAnimation = [
+    { transform: "rotate(0) scale(1)" },
+    { transform: "rotate(360deg) scale(0)" },
+];*/
 
 
 function orderInformation(customerName, pancakeDetails, deliveryOption, totalPrice) {
@@ -121,6 +126,19 @@ const updateOrderData = () => {
     currentOrder.pancakeDetails = pancakeDetails;
     currentOrder.deliveryOption = chosenDeliveryOption;
     currentOrder.totalPrice = totalPrice;
+
+    priceBanner.animate(
+        [
+            // keyframes
+            { transform: "translateY(0px)" },
+            { transform: "translateY(-300px)" },
+        ],
+        {
+            // timing options
+            duration: 10,
+            iterations: 1,
+        },
+    );
 }
 
 const updatePrice = () => {

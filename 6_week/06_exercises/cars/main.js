@@ -1,3 +1,4 @@
+"use strict";
 
 searchText = document.querySelector("#searchBar");
 licenseText = document.querySelector("#licenseNumber");

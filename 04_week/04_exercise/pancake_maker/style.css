@@ -1,3 +1,9 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
 body {
   font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #fff8f0;
@@ -58,10 +64,40 @@ body {
   white-space: pre-wrap;
 }
 
-@media only screen and (max-width: 375px) {}
+table,
+th,
+td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  padding: 10px;
+}
+
+@media only screen and (max-width: 375px) {
+
+  body {
+    align-items: start;
+  }
+
+  .price-banner {
+    justify-content: center;
+  }
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    object-fit: fill;
+  }
+
+  .image-container img {
+    height: 50vh;
+    object-fit: cover;
+
+  }
+
+}
 
 
-/*
+
 @keyframes shake {
   0% {
     background-color: red;
@@ -76,4 +112,3 @@ body {
   }
 
 }
-*/

@@ -1,0 +1,62 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.search-div {
+    padding: 20px;
+}
+
+.main-body {
+    display: flex;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+.line {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.buttons-line {
+    justify-content: left;
+}
+
+button {
+    padding: 5px;
+    margin: 5px 0;
+}
+
+.licenseNumber,
+.carMaker,
+.carModel,
+.carOwner,
+.carPrice,
+.carColor {
+    padding: 2px;
+}
+
+.car-add-form,
+.car-table {
+    width: 50%;
+    margin: 20px;
+}
+
+.separator1,
+.separator2 {
+    background: blue;
+    padding: 20px;
+}
+
+table,
+th,
+td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    padding: 10px;
+}
