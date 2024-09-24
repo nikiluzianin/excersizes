@@ -16,16 +16,13 @@ Hint: You will need to use `console.error()` to log the error details.
 
 function task1() {
   try {
-    // Simulate error
     throw new Error('Oops, something went wrong!');
   } catch (error) {
-    console.error('An error appears:', error.message);
+    console.error('An error occurred:', error.message);
   }
 }
 
 task1();
-
-
 
 // Task 2: Catching ReferenceError
 /*
@@ -41,21 +38,17 @@ Expected behavior:
 
 function task2() {
   try {
-    let a = 1 + b;
-    // Code here
+    console.log(notDefinedvariable)
   } catch (error) {
     if (error instanceof ReferenceError) {
-      console.error('Expected error:', error.message);
+      console.log('Reference error:', error.message);
     } else {
-      console.error('Totally unexpected error:', error.message);
+      console.log('an unexpected error occured:', error.message);
     }
   }
 }
 
-task2();
-console.log("\n");
-
-
+task2()
 
 // Task 3: Using Finally
 /*
@@ -71,18 +64,15 @@ Expected behavior:
 
 function task3() {
   try {
-    let a = 1 + a;
+    throw new Error('Something is wrong with the unicorns!');
   } catch (error) {
-    console.error('task 3 error:', error.message);
+    console.error('Caught an error:', error.message);
   } finally {
-    console.log('Execution comleted');
+    console.log('try...catch completed');
   }
-  // Code here
 }
 
-task3();
-console.log("\n");
-
+task3()
 
 // Task 4: Nested Try-Catch
 /*
@@ -101,23 +91,22 @@ Hint: Nest the second try-catch block inside the first try block.
 
 function task4() {
   try {
-
+    console.log('Outer try block');
     try {
-      let a = b + 1;
-    } catch (error) {
-      console.error('Inside loop error', error.message);
+      throw new Error('Error in inside nested try block')
+    } catch (innerError) {
+      console.error('Caught inner try:', innerError.message)
     }
-    let c = d + 1;
-  } catch (error) {
-    console.error('Outside loop error', error.message);
-
+    throw new Error('Error in outside try block')
+  } catch (outerError) {
+    console.error('Caught in try:', outerError.message)
+  } finally {
+    console.log('Completed')
   }
-  // Code here
 }
 
+task4()
 
-task4();
-console.log("\n");
 
 
 // Task 5: Function with Try-Catch
@@ -134,27 +123,21 @@ Expected behavior:
 */
 
 function task5(array, index) {
-
   try {
-    if (index > array.length) {
-
-      throw new RangeError('Index out of bounds')
-    } else {
-      console.log('you are looking for', array.at(index));
+    if (index < 0 || index >= array.length) {
+      throw new RangeError('Index out of bounds');
     }
+    return array[index];
   } catch (error) {
-    if (error instanceof RangeError) {
-      console.error('Errors message:', error.message);
-    } else {
-      console.error("Some random error: ", error.message);
-    }
+    console.error('Caught an error:', error.message)
+  } finally {
+    console.log('task 5 completed');
   }
-
-  // Code here
 }
 
-task5([1, 2, 3, 4, 5], 20);
-console.log("\n");
+console.log(task5([1, 2, 3], 1))
+console.log(task5([1, 2, 3], 5))
+
 
 // Task 6: Catching TypeError
 /*
@@ -170,22 +153,18 @@ Expected behavior:
 
 function task6(obj, key) {
   try {
-    if ((obj[key] == undefined) || (obj[key] == null)) {
-      throw new TypeError("Oh nooo!");
-    } else {
-      console.log("the object for the key is: ", obj[key]);
-    }
+    console.log(obj[key]);
   } catch (error) {
-    console.error('TypeError caught', error.message);
+    if (error instanceof TypeError) {
+      console.error('TypeError caught:', error.message)
+    } else {
+      console.error('An unexpected error occured:', error.message)
+    }
   }
-  // Code here
 }
 
-task6({ name: "wolf", age: "16" }, "lala");
-task6({ name: "wolf", age: "16" }, "age");
-console.log("\n");
-
-
+task6({ firstName: 'Margit' }, 'firstName')
+task6(null, 'firstName')
 
 // Task 7: Handling JSON Parsing Error
 /*
@@ -203,19 +182,15 @@ Hint: Use `JSON.parse()` to attempt to parse the input string.
 
 function task7(jsonString) {
   try {
-    let newJson = JSON.parse(jsonString);
-    console.log("Here is the json: ", newJson);
-
+    const parsedObj = JSON.parse(jsonString);
+    console.log(parsedObj);
   } catch (error) {
-    console.error('A wild error apeears: ', error.message);
+    console.error('Invalid JSON format:', error.message)
   }
-  // Code here
 }
 
-task7("12");
-task7("sdasdas");
-console.log("\n");
-
+task7('{"name": "Alice"}');  // Valid JSON
+task7('{name: Alice}');  // Invalid JSON
 
 // Task 8: Throwing Custom Error
 /*
@@ -230,21 +205,8 @@ Expected behavior:
 */
 
 function task8(number) {
-  try {
-    if (number < 0) {
-      throw new Error("number must be positive")
-    } else console.log(number);
-
-  } catch (error) {
-    console.error("New one: ", error.message);
-  }
+  // Code here
 }
-
-task8(2);
-task8(-2);
-console.log("\n");
-// Code here
-
 
 
 // Task 9: RangeError Example
@@ -260,22 +222,8 @@ Expected behavior:
 */
 
 function task9(number) {
-  try {
-    if (number < 0) throw new RangeError("Array length must be non-negative");
-    const arr = new Array(number);
-  } catch (error) {
-    if (error instanceof RangeError) {
-      console.log("RangeError error: ", error.message);
-    } else {
-      console.log("Another error: ", error.message);
-    }
-  }
   // Code here
 }
-
-task9(2);
-task9(-2);
-console.log("\n");
 
 
 // Task 10: URIError Handling
@@ -290,16 +238,6 @@ Expected behavior:
 */
 
 function task10(malformedURI) {
-  try {
-    const link = decodeURI(malformedURI);
-    console.log(link);
-  } catch (error) {
-    error instanceof URIError ? console.error("URIError message: ", error.message) : console.error("Antoher message type: ", error.messare);
-  }
   // Code here
 }
-
-task10("%");
-task10("https://anxiing.com");
-console.log("\n");
 
