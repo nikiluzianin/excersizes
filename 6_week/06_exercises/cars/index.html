@@ -47,6 +47,11 @@
                     </div>
 
                     <div class="line">
+                        <label for="carYear">Car year</label>
+                        <input type="number" id="carYear" name="carYear">
+                    </div>
+
+                    <div class="line">
                         <label for="carOwner">Car owner</label>
                         <input type="text" id="carOwner" name="carOwner">
                     </div>
@@ -66,7 +71,9 @@
                         <button type="submit" id="reset">Reset</button>
                     </div>
 
+                    <div id="car-data-errors">
 
+                    </div>
                 </form>
             </div>
 
@@ -78,8 +85,10 @@
                             <th>LICENSE</th>
                             <th>MAKER</th>
                             <th>MODEL</th>
+                            <th>YEAR</th>
                             <th>OWNER</th>
                             <th>PRICE</th>
+                            <th>DISCOUNTED PRICE</th>
                             <th>COLOR</th>
                         </tr>
                     </thead>
