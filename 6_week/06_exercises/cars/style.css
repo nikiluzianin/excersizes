@@ -5,7 +5,7 @@
 }
 
 .search-div {
-    padding: 20px;
+    display: flex;
 }
 
 .main-body {
@@ -14,6 +14,11 @@
 
 #car-data-errors {
     white-space: pre-wrap;
+}
+
+#search-result {
+    white-space: pre-wrap;
+    padding-top: 30px;
 }
 
 form {
@@ -25,15 +30,34 @@ form {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    padding: 5px;
+}
+
+.search-line {
+    justify-content: left;
+    display: flex;
+}
+
+label {
+    padding-right: 10px;
 }
 
 .buttons-line {
     justify-content: left;
 }
 
+#car-data-errors {
+    padding-top: 50px;
+}
+
+input {
+    padding: 5px;
+}
+
 button {
     padding: 5px;
     margin: 5px 0;
+    width: 6rem;
 }
 
 .licenseNumber,
@@ -46,7 +70,9 @@ button {
 }
 
 .car-add-form,
-.car-table {
+.car-table,
+.left-column,
+.search-result {
     width: 50%;
     margin: 20px;
 }

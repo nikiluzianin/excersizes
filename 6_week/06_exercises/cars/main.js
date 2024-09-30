@@ -8,21 +8,19 @@ const yearText = document.querySelector("#carYear");
 const ownerText = document.querySelector("#carOwner");
 const priceText = document.querySelector("#carPrice");
 const colorText = document.querySelector("#carColor");
-
-const tableBody = document.querySelector("#table-body");
+const carsTable = document.querySelector("#cars-table");
 
 const searchResult = document.querySelector("#search-result");
-const carDataErrors = document.querySelector("#car-data-errors");
+const carData = document.querySelector("#car-data");
 
 
 const platesFormatRegex = /^[a-zA-Z]{3}\d{3}$/;
 const EARLIEST_YEAR = 1880;
 const CURRENT_YEAR = 2024;
 const DISCOUNT_PERCENTAGE = 0.85;
+const SAVING_ON = true;
 
-
-const cars = [];
-
+let cars = [];
 
 class Car {
     constructor(license, maker, model, year, owner, price, color) {
@@ -33,6 +31,14 @@ class Car {
         this.owner = owner;
         this.price = price;
         this.color = color;
+    }
+
+    honks() {
+        console.log("car honks");
+    }
+
+    getCarInfo(discountPrice = "") {
+        return "make: " + this.maker + ", model: " + this.model + ", owner: " + this.owner + ", price: " + this.price + discountPrice;
     }
 }
 
@@ -91,7 +97,7 @@ const checkInputs2 = () => {
 
     try {
         if (validationErrors.length != 0)
-            throw new Error("Input errors:\n" + validationErrors.join("\n") + '\n');
+            throw new Error("Validation errors:\n" + validationErrors.join("\n") + '\n');
     } catch (error) {
         printCarErrors(error.message);
     }
@@ -176,19 +182,36 @@ const checkInputs1 = (actuallyCheck) => {
 // actual function
 const addCar = (newCar) => {
     cars.push(newCar);
-    addCarToTable(newCar);
+    reloadPageWithAllCars();
+    localStorage.setItem('cars', JSON.stringify(cars));
+}
+
+const removeCar = (carToDelete) => {
+    // delete cars[cars.indexOf(carToDelete)];
+    cars.splice(cars.indexOf(carToDelete), 1);
+    reloadPageWithAllCars();
+    localStorage.setItem('cars', JSON.stringify(cars));
 }
 
 
 // getting input from fields
 const searchFromSearchBar = (searchInput) => {
     resetSearchResult();
+    tableToDefaultColors();
     if (checkSearchInput(searchInput)) {
         const foundCar = searchCar(searchInput);
+
+        console.log(foundCar);
+
         if (foundCar) {
             const discountPriceInfo = (CURRENT_YEAR - foundCar.year > 10) ? (", discounted price: " + foundCar.price * DISCOUNT_PERCENTAGE) : "";
-            const carInfo = "make: " + foundCar.maker + ", model: " + foundCar.model + ", owner: " + foundCar.owner + ", price: " + foundCar.price + discountPriceInfo;
-            printSearchResults("Car found, info: \n" + carInfo);
+            //const carInfo = "make: " + foundCar.maker + ", model: " + foundCar.model + ", owner: " + foundCar.owner + ", price: " + foundCar.price + discountPriceInfo;
+
+            //printSearchResults("Car found, info: \n" + carInfo);
+            printSearchResults("Car found, info: \n" + foundCar.getCarInfo(discountPriceInfo));
+
+            foundCar.honks();
+            highlightCar(foundCar);
         } else printSearchResults("No results found");
     }
 }
@@ -196,17 +219,24 @@ const searchFromSearchBar = (searchInput) => {
 const addCarFromFields = () => {
     if (checkInputs1(true)) {
         let newCar = new Car(licenseText.value, makerText.value, modelText.value, yearText.value, ownerText.value, priceText.value, colorText.value);
-        addCar(newCar);
         resetFields();
+        addCar(newCar);
+        printCarData('New car added:\n' + newCar.getCarInfo());
     }
 }
 
-const searchCar = (searchingLicense) => cars.find((car) => car.license == searchingLicense);
+const searchCar = (searchingLicense) => cars.find((car) => car.license.toLowerCase() == searchingLicense.toLowerCase());
 
 // modifying the table and error space
-const addCarToTable = (car) => {
 
-    let tableRow = tableBody.insertRow(-1);
+const highlightCar = (car) => carsTable.getElementsByTagName('tbody')[0].getElementsByTagName("tr")[cars.indexOf(car)].style.backgroundColor = "Yellow";
+
+const tableToDefaultColors = () => {
+    for (let element of carsTable.getElementsByTagName('tbody')[0].getElementsByTagName("tr")) element.style.backgroundColor = "";
+}
+
+const addCarToTable = (car) => {
+    let tableRow = carsTable.getElementsByTagName('tbody')[0].insertRow(-1);
 
     const discountPrice = (CURRENT_YEAR - car.year > 10) ? car.price * DISCOUNT_PERCENTAGE : "";
 
@@ -215,14 +245,35 @@ const addCarToTable = (car) => {
         tableCell.textContent = value;
         if (key == "price") {
             let tableCell = tableRow.insertCell(-1);
-            tableCell.textContent = (discountPrice == "") ? "" : discountPrice;
+            tableCell.textContent = (discountPrice == "") ? "-" : discountPrice;
         }
     }
+
+    let tableCell = tableRow.insertCell(-1);
+    const deleteButton = document.createElement('input');
+    tableCell.appendChild(deleteButton);
+
+    deleteButton.type = "button";
+    deleteButton.value = "Delete";
+    deleteButton.addEventListener("click", (ev) => {
+
+        removeCar(searchCar(deleteButton.parentElement.parentElement.getElementsByTagName('td')[0].textContent));
+    });
+
+
+}
+
+const reloadPageWithAllCars = () => {
+
+    carsTable.getElementsByTagName('tbody')[0].remove();
+    carsTable.appendChild(document.createElement('tbody'));
+    cars.forEach((car) => addCarToTable(car));
+
 }
 
 const printSearchResults = (results) => searchResult.textContent += results;
 
-const printCarErrors = (allErrors) => carDataErrors.textContent += allErrors;
+const printCarData = (allData) => carData.textContent += allData;
 
 
 // cleaning the text fields
@@ -235,15 +286,16 @@ const resetFields = () => {
     priceText.value = "";
     colorText.value = "";
     searchText.value = "";
-    carDataErrors.textContent = "";
+    carData.textContent = "";
     searchResult.textContent = "";
+    tableToDefaultColors();
 }
 
 const resetSearchResult = () => searchResult.textContent = "";
 
 const resetSearch = () => searchText.value = "";
 
-const resetErrors = () => carDataErrors.textContent = "";
+const resetErrors = () => carData.textContent = "";
 
 
 // listeners
@@ -263,6 +315,21 @@ document.querySelector("#reset").addEventListener("click", function (ev) {
 });
 
 // add some random cars for easier testing
-addCar(new Car("asd123", "VW", "Scirpccp", 2012, "Nikita", 10000, "Red"));
-addCar(new Car("asd124", "Audi", "A3", 2000, "Other person", 2000, "White"));
+
+const newCarFromObject = (car) => {
+    return new Car(car.license, car.maker, car.model, car.year, car.owner, car.price, car.color);
+}
+
+const prepareWithLocalStorage = (parameter = true) => {
+    if (parameter) {
+        let loadedCars = JSON.parse(localStorage.getItem('cars'));
+        (loadedCars == undefined) ? cars = [] : loadedCars.forEach((car) => addCar(newCarFromObject(car)));
+    } else {
+        addCar(new Car("asd123", "VW", "Scirpccp", 2022, "Nikita", 10000, "Red"));
+        addCar(new Car("asd124", "Audi", "A3", 2000, "Other person", 2000, "White"));
+    }
+}
+
+prepareWithLocalStorage(SAVING_ON);
+
 

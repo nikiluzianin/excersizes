@@ -15,20 +15,23 @@
     <main>
         <div class="separator1"></div>
         <div class="search-div">
-            <h2>Search by license number</h2>
-            <form class="search-form">
-                <div class="search-label">
-                    <label for="searchBar">License number</label>
-                    <input type="text" id="searchBar" name="searchBar" required>
-                </div>
-                <button type="submit" id="search">Search</button>
+            <div class="left-column">
+                <h2>Search by license number</h2>
+                <form class="search-form">
+                    <div class="line search-line">
+                        <label for="searchBar">License number</label>
+                        <input type="text" id="searchBar" name="searchBar" required>
+                    </div>
+                    <button type="submit" id="search">Search</button>
+            </div>
             </form>
-        </div>
-        <div id="search-result">
+            <div id="search-result">
 
+            </div>
         </div>
 
-        <div class="separator2"></div>
+
+        <div class="separator1"></div>
         <div class="main-body">
             <div class="car-add-form">
                 <h2>Insert car data</h2>
@@ -73,34 +76,40 @@
                         <button type="submit" id="reset">Reset</button>
                     </div>
 
-                    <div id="car-data-errors">
 
-                    </div>
                 </form>
-            </div>
-
-            <div class="car-table">
-                <h2>Cars database</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>LICENSE</th>
-                            <th>MAKER</th>
-                            <th>MODEL</th>
-                            <th>YEAR</th>
-                            <th>OWNER</th>
-                            <th>PRICE</th>
-                            <th>DISCOUNTED PRICE</th>
-                            <th>COLOR</th>
-                        </tr>
-                    </thead>
-                    <tbody id="table-body">
-
-
-                    </tbody>
-                </table>
 
             </div>
+            <div id="car-data">
+
+            </div>
+
+
+        </div>
+        <div class="separator1"></div>
+
+        <div class="car-table">
+            <h2>Cars database</h2>
+            <table id="cars-table">
+                <thead>
+                    <tr>
+                        <th>LICENSE</th>
+                        <th>MAKER</th>
+                        <th>MODEL</th>
+                        <th>YEAR</th>
+                        <th>OWNER</th>
+                        <th>PRICE</th>
+                        <th>DISCOUNTED PRICE</th>
+                        <th>COLOR</th>
+                        <th>ACTION</th>
+                    </tr>
+                </thead>
+                <tbody id="table-body">
+
+
+                </tbody>
+            </table>
+
         </div>
     </main>
 
