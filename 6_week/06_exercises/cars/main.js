@@ -34,7 +34,7 @@ class Car {
     }
 
     honks() {
-        console.log("car honks");
+        console.log("car " + this.license + " honks loudly");
     }
 
     getCarInfo(discountPrice = "") {
@@ -186,9 +186,15 @@ const addCar = (newCar) => {
     localStorage.setItem('cars', JSON.stringify(cars));
 }
 
-const removeCar = (carToDelete) => {
+const removeCarUsingCar = (carToDelete) => {
     // delete cars[cars.indexOf(carToDelete)];
     cars.splice(cars.indexOf(carToDelete), 1);
+    reloadPageWithAllCars();
+    localStorage.setItem('cars', JSON.stringify(cars));
+}
+
+const removeCarUsingIndex = (carIndexToDelete) => {
+    cars.splice(carIndexToDelete, 1);
     reloadPageWithAllCars();
     localStorage.setItem('cars', JSON.stringify(cars));
 }
@@ -200,16 +206,9 @@ const searchFromSearchBar = (searchInput) => {
     tableToDefaultColors();
     if (checkSearchInput(searchInput)) {
         const foundCar = searchCar(searchInput);
-
-        console.log(foundCar);
-
         if (foundCar) {
             const discountPriceInfo = (CURRENT_YEAR - foundCar.year > 10) ? (", discounted price: " + foundCar.price * DISCOUNT_PERCENTAGE) : "";
-            //const carInfo = "make: " + foundCar.maker + ", model: " + foundCar.model + ", owner: " + foundCar.owner + ", price: " + foundCar.price + discountPriceInfo;
-
-            //printSearchResults("Car found, info: \n" + carInfo);
             printSearchResults("Car found, info: \n" + foundCar.getCarInfo(discountPriceInfo));
-
             foundCar.honks();
             highlightCar(foundCar);
         } else printSearchResults("No results found");
@@ -257,10 +256,11 @@ const addCarToTable = (car) => {
     deleteButton.value = "Delete";
     deleteButton.addEventListener("click", (ev) => {
 
-        removeCar(searchCar(deleteButton.parentElement.parentElement.getElementsByTagName('td')[0].textContent));
+        //removeCarUsingCar(searchCar(deleteButton.parentElement.parentElement.getElementsByTagName('td')[0].textContent)); // very hard thing that basically finds what is the plate number of removed car
+        // removeCarUsingCar(searchCar(tableRow.getElementsByTagName('td')[0].textContent));
+        // easier way of doing bascially the same
+        removeCarUsingIndex(tableRow.rowIndex - 1);
     });
-
-
 }
 
 const reloadPageWithAllCars = () => {
