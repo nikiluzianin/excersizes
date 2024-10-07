@@ -94,8 +94,8 @@ button {
   font-family: var(--font-situation);
   font-size: 1rem;
   border: none;
-  border-radius: 6px;
-  background-color: #f4a374;
+  border-radius: 5px;
+  background-color: #d87c47;
 }
 
 table,
@@ -106,7 +106,7 @@ td {
   padding: 10px;
 }
 
-@media only screen and (max-width: 375px) {
+@media only screen and (max-width: 720px) {
 
   body {
     align-items: start;
