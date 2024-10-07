@@ -38,7 +38,7 @@ class Car {
     }
 
     getCarInfo(discountPrice = "") {
-        return "make: " + this.maker + ", model: " + this.model + ", owner: " + this.owner + ", price: " + this.price + discountPrice;
+        return "make: " + this.maker + "\nmodel: " + this.model + "\nowner: " + this.owner + "\nprice: " + this.price + discountPrice;
     }
 }
 
@@ -63,7 +63,7 @@ const checkSearchInput = (searchInput) => {
 const checkInputs2 = () => {
 
     const validationErrors = [];
-
+    console.log("asd");
     resetErrors();
 
     if (licenseText.value.trim() == 0)
@@ -99,7 +99,7 @@ const checkInputs2 = () => {
         if (validationErrors.length != 0)
             throw new Error("Validation errors:\n" + validationErrors.join("\n") + '\n');
     } catch (error) {
-        printCarErrors(error.message);
+        printCarData(error.message);
     }
 
     return ((validationErrors.length == 0));
@@ -207,7 +207,7 @@ const searchFromSearchBar = (searchInput) => {
     if (checkSearchInput(searchInput)) {
         const foundCar = searchCar(searchInput);
         if (foundCar) {
-            const discountPriceInfo = (CURRENT_YEAR - foundCar.year > 10) ? (", discounted price: " + foundCar.price * DISCOUNT_PERCENTAGE) : "";
+            const discountPriceInfo = (CURRENT_YEAR - foundCar.year > 10) ? ("\ndiscounted price: " + foundCar.price * DISCOUNT_PERCENTAGE) : "";
             printSearchResults("Car found, info: \n" + foundCar.getCarInfo(discountPriceInfo));
             foundCar.honks();
             highlightCar(foundCar);
@@ -254,11 +254,8 @@ const addCarToTable = (car) => {
 
     deleteButton.type = "button";
     deleteButton.value = "Delete";
+    deleteButton.id = "delete-button";
     deleteButton.addEventListener("click", (ev) => {
-
-        //removeCarUsingCar(searchCar(deleteButton.parentElement.parentElement.getElementsByTagName('td')[0].textContent)); // very hard thing that basically finds what is the plate number of removed car
-        // removeCarUsingCar(searchCar(tableRow.getElementsByTagName('td')[0].textContent));
-        // easier way of doing bascially the same
         removeCarUsingIndex(tableRow.rowIndex - 1);
     });
 }
@@ -317,7 +314,8 @@ document.querySelector("#reset").addEventListener("click", function (ev) {
 // add some random cars for easier testing
 
 const newCarFromObject = (car) => {
-    return new Car(car.license, car.maker, car.model, car.year, car.owner, car.price, car.color);
+    const { license, maker, model, year, owner, price, color } = car;
+    return new Car(license, maker, model, year, owner, price, color);
 }
 
 const prepareWithLocalStorage = (parameter = true) => {

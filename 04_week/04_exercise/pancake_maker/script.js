@@ -17,10 +17,6 @@ const customerName = document.querySelector('#customerName');
 
 const deliveryOptions = document.getElementsByName('deliveryOptions');
 
-const orderSummaryButton = document.querySelector('#orderSummary'); // all the buttons
-const saveOrderButton = document.querySelector('#saveOrder');
-const allOrdersButton = document.querySelector('#allOrders');
-
 const orderInfromationSpace = document.querySelector('#orderInformation');
 
 const priceBanner = document.querySelector(".price-banner");
@@ -129,15 +125,14 @@ const updateOrderData = () => {
 
     priceBanner.animate(
         [
-            // keyframes
-            { transform: "translateY(0px)" },
-            { transform: "translateY(-300px)" },
+            { transform: 'scale(1)' },
+            { transform: 'scale(2)' },
+            { transform: 'scale(1)' },
         ],
         {
-            // timing options
-            duration: 10,
+            duration: 100,
             iterations: 1,
-        },
+        }
     );
 }
 
@@ -219,8 +214,8 @@ const showAllOrders = () => {
 
 wholeForm.addEventListener('input', updatePrice);
 
-orderSummaryButton.addEventListener('click', orderSummary);
-saveOrderButton.addEventListener('click', saveOrder);
-allOrdersButton.addEventListener('click', showAllOrders);
+document.querySelector('#orderSummary').addEventListener('click', orderSummary);
+document.querySelector('#saveOrder').addEventListener('click', saveOrder);
+document.querySelector('#allOrders').addEventListener('click', showAllOrders);
 
 createOrder();

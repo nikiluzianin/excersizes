@@ -8,10 +8,13 @@
 body {
     background-color: green;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: #333;
+    color: lightgoldenrodyellow;
+
 }
 
 header,
-main,
+section,
 footer {
     padding: 2rem;
 }
@@ -23,21 +26,47 @@ html {
 header {
     display: flex;
     justify-content: space-between;
+    width: 100%;
     height: 100px;
-    position: sticky;
-    background-color: white;
+    position: fixed;
     align-items: center;
     padding: 1rem;
-    top: 0;
+    background-color: transparent;
+    /*top: 0;*/
+}
+
+.mobile {
+    display: none;
 }
 
 nav ul li {
     display: inline-block;
+    text-decoration: none;
+
+}
+
+p {
+    line-height: 1.4;
 }
 
 section {
     height: 45vh;
     scroll-margin-top: 5rem;
+}
+
+section:first-child {
+    padding-top: 100px;
+    background: url(mountain.jpg) no-repeat fixed center center/cover;
+    height: 75vh;
+}
+
+section:nth-child(2) {
+    background-color: #835ED4;
+    color: lightgoldenrodyellow;
+}
+
+section:last-child {
+    background-color: #5EAFD4;
 }
 
 button {
@@ -50,8 +79,64 @@ button {
     font-size: inherit;
 }
 
+.overlay {
+    background-color: rgba(0, 0, 0, 0.6);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.overlay.visible {
+    display: flex;
+}
+
+.modal {
+    background-color: white;
+    color: #333;
+    border-radius: 5px;
+    box-shadow: 0 0 5px #333;
+    padding: 2rem;
+    width: 80vw;
+    position: relative;
+}
+
+.closeButton {}
+
 #backTop {
     position: fixed;
     right: 2rem;
     bottom: 2rem;
+}
+
+@media (max-width:800px) {
+    .mobile {
+        display: block;
+    }
+
+    nav ul {
+        display: none;
+    }
+
+    nav ul.responsive {
+        display: block;
+        background-color: white;
+        color: #333;
+        position: absolute;
+        left: 0;
+        width: 100%;
+    }
+
+    ul.responsive li {
+        display: block;
+        margin: 2rem 1rem;
+    }
+
+    header {
+        background-color: white;
+    }
 }
