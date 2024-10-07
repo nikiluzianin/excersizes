@@ -21,10 +21,6 @@ const orderInfromationSpace = document.querySelector('#orderInformation');
 
 const priceBanner = document.querySelector(".price-banner");
 
-/*const priceAnimation = [
-    { transform: "rotate(0) scale(1)" },
-    { transform: "rotate(360deg) scale(0)" },
-];*/
 
 let currentOrder;
 let allOrders = [];
@@ -112,9 +108,16 @@ class SavedOrder extends orderInformation {
 
 }
 
+const changePancakePic = (number) =>
+    document.querySelector("#main-picture").src =
+    (number == 0) ? "assets/pexels-ash-craig-122861-376464.jpg" :
+        (number == 1) ? "assets/pexels-gabby-k-7144669.jpg" : "assets/pexels-pixabay-236804.jpg";
+
 
 const updateOrderData = () => {
     let pancakeDetails = [typeSelector.value];
+    changePancakePic(typeSelector.selectedIndex);
+
     for (let selector of allAdditionalSelectors) (selector.checked) && pancakeDetails.push(selector.id);
 
     let chosenDeliveryOption;
