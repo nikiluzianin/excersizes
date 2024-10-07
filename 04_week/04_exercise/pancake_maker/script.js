@@ -23,6 +23,7 @@ const priceBanner = document.querySelector(".price-banner");
 
 
 let currentOrder;
+let ordersCreated = 0;
 let allOrders = [];
 let allAdditionalSelectors = [nutsToppingSelector, bananasToppingSelector, syrupToppingSelector, creamExtraSelector, iceExtraSelector];
 let totalPrice = 5;
@@ -170,7 +171,7 @@ const resetForm = () => {
     creamExtraSelector.checked = false;
     iceExtraSelector.checked = false;
     customerName.value = "";
-    deliveryOptions.forEach((deliveryOption) => deliveryOption.checked = false);
+    deliveryOptions[0].checked = true;
     cleanUpInfoDiv();
 
 }
@@ -182,21 +183,56 @@ const createNewOrder = () => {
     updatePrice();
 }
 
+const completeOrder = (index) => {
+    allOrders.splice(index, 1);
+    showAllOrders();
+}
+
+const editOrder = (index) => {
+    // console.log(document.querySelector('#saveOrder').textContent);// = "asd";
+    document.querySelector('#saveOrder').textContent = "Save update";
+}
+
 const printOrdersInformationIntoDiv = (ordersInQuestion) => {
 
     let table = document.createElement('table');
-    const firstRow = ["Order Number", "Customer Name ", "Pancake Type ", "Toppings and Extras", "Delivery ", "Total Price "];
+    const firstRow = ["Order Number", "Customer Name ", "Pancake Type ", "Toppings and Extras", "Delivery ", "Total Price ", "Actions"];
     const tableRow = table.insertRow(-1);
     firstRow.forEach((item) => tableRow.insertCell(-1).textContent = item);
 
     ordersInQuestion.forEach((orderInQuestion) => {
         const tableRow = table.insertRow(-1);
-        tableRow.insertCell(-1).textContent = orderInQuestion?.orderNumber || "pending";
+        const orderNumber = orderInQuestion?.orderNumber || "pending";
+        tableRow.insertCell(-1).textContent = orderNumber;
         tableRow.insertCell(-1).textContent = orderInQuestion.getOrderInformationCustomerNameString();
         tableRow.insertCell(-1).textContent = orderInQuestion.getOrderInformationPancakeTypeString();
         tableRow.insertCell(-1).textContent = orderInQuestion.getOrderInfromationToppingsAndExtrasString();
         tableRow.insertCell(-1).textContent = orderInQuestion.getOrderInformationDeliveryString();
         tableRow.insertCell(-1).textContent = orderInQuestion.getOrderInformationTotalPriceString();
+
+        if (orderNumber != "pending") {
+            const buttonTableCell = tableRow.insertCell(-1);
+            const completeButton = document.createElement('input');
+            buttonTableCell.appendChild(completeButton);
+
+            completeButton.type = "button";
+            completeButton.value = "Complete";
+            completeButton.id = "complete-button";
+            completeButton.addEventListener("click", (ev) => {
+                completeOrder(tableRow.rowIndex - 1);
+            });
+
+            const editButton = document.createElement('input');
+            buttonTableCell.appendChild(editButton);
+
+            editButton.type = "button";
+            editButton.value = "Edit";
+            editButton.id = "edit-button";
+            editButton.addEventListener("click", (ev) => {
+                editOrder(tableRow.rowIndex - 1);
+            });
+        }
+
     });
 
     return table;
@@ -211,7 +247,10 @@ const orderSummary = () => {
 
 const saveOrder = () => {
     const { customerName, pancakeDetails, deliveryOption, totalPrice } = currentOrder;
-    allOrders.push(new SavedOrder(customerName, pancakeDetails, deliveryOption, totalPrice, allOrders.length + 1));
+
+
+
+    allOrders.push(new SavedOrder(customerName, pancakeDetails, deliveryOption, totalPrice, ++ordersCreated));
 
     createNewOrder();
 }
