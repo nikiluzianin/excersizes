@@ -119,6 +119,7 @@ td {
 
   .price-banner {
     justify-content: center;
+    position: inherit;
   }
 
   .container {

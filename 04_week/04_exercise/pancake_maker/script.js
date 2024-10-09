@@ -205,6 +205,7 @@ const createNewOrder = () => {
 }
 
 const completeOrder = (index) => {
+    (allOrders[index] == currentOrder) && createNewOrder();
     allOrders.splice(index, 1);
     showAllOrders();
 }
@@ -255,6 +256,17 @@ const printOrdersInformationIntoDiv = (ordersInQuestion) => {
             editButton.addEventListener("click", (ev) => {
                 editOrder(tableRow.rowIndex - 1);
             });
+        } else {
+            const buttonTableCell = tableRow.insertCell(-1);
+            const resetButton = document.createElement('input');
+            buttonTableCell.appendChild(resetButton);
+
+            resetButton.type = "button";
+            resetButton.value = "Reset";
+            resetButton.id = "reset-button";
+            resetButton.addEventListener("click", (ev) => {
+                createNewOrder();
+            });
         }
 
     });
@@ -283,7 +295,7 @@ const saveOrder = () => {
     createNewOrder();
 }
 
-const showAllOrders = (withCurrent = true) => {
+const showAllOrders = () => {
     cleanUpInfoDiv();
     currentOrder?.orderNumber ? orderInfromationSpace.appendChild(printOrdersInformationIntoDiv([...allOrders])) : orderInfromationSpace.appendChild(printOrdersInformationIntoDiv([...allOrders, currentOrder]));
 }
