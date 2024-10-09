@@ -42,9 +42,9 @@ class orderInformation {
 
     getOrderInformationPancakeTypeString() {
         switch (this.pancakeDetails[0]) {
-            case ("5"): return "Classic";
-            case ("6"): return "Chocolate";
-            case ("7"): return "Blueberry";
+            case (0): return "Classic";
+            case (1): return "Chocolate";
+            case (2): return "Blueberry";
         };
     }
 
@@ -81,9 +81,9 @@ class orderInformation {
 
     getOrderInformationDeliveryString() {
         switch (this.deliveryOption) {
-            case ("eatIn"): return "Eat In";
-            case ("pickUp"): return "Pick Up";
-            case ("delivery"): return "Delivery";
+            case (0): return "Eat In";
+            case (1): return "Pick Up";
+            case (2): return "Delivery";
         }
     }
 
@@ -116,13 +116,14 @@ const changePancakePic = (number) =>
 
 
 const updateOrderData = () => {
-    let pancakeDetails = [typeSelector.value];
+    // let pancakeDetails = [typeSelector.value];
+    let pancakeDetails = [typeSelector.selectedIndex];
     changePancakePic(typeSelector.selectedIndex);
 
     for (let selector of allAdditionalSelectors) (selector.checked) && pancakeDetails.push(selector.id);
 
     let chosenDeliveryOption;
-    for (let deliveryOption of deliveryOptions) (deliveryOption.checked) && (chosenDeliveryOption = deliveryOption.id);
+    deliveryOptions.forEach((deliveryOption, index) => (deliveryOption.checked) && (chosenDeliveryOption = index));
 
     currentOrder.customerName = customerName.value;
     currentOrder.pancakeDetails = pancakeDetails;
@@ -179,16 +180,19 @@ const updateForm = (order) => {
 
     const { customerName, pancakeDetails, deliveryOption, totalPrice, orderNumber } = order;
 
-    console.log(pancakeDetails);
     //asdasd have no idea how to load index
     typeSelector.selectedIndex = pancakeDetails[0];
-    nutsToppingSelector.checked = false;
-    bananasToppingSelector.checked = false;
-    syrupToppingSelector.checked = false;
-    creamExtraSelector.checked = false;
-    iceExtraSelector.checked = false;
+
+    const options = order.getOrderInfromationToppingsAndExtrasString();
+
+    nutsToppingSelector.checked = options.includes("Nuts");
+    bananasToppingSelector.checked = options.includes("Bananas");
+    syrupToppingSelector.checked = options.includes("Syrup");
+    creamExtraSelector.checked = options.includes("Whipped Cream");
+    iceExtraSelector.checked = options.includes("Ice Cream");
     customerNameField.value = customerName;
-    deliveryOptions[0].checked = true;
+    deliveryOptions[deliveryOption].checked = true;
+    console.log(deliveryOption);
     cleanUpInfoDiv();
     updatePrice();
 }
@@ -279,9 +283,9 @@ const saveOrder = () => {
     createNewOrder();
 }
 
-const showAllOrders = () => {
+const showAllOrders = (withCurrent = true) => {
     cleanUpInfoDiv();
-    orderInfromationSpace.appendChild(printOrdersInformationIntoDiv([...allOrders, currentOrder]));
+    currentOrder?.orderNumber ? orderInfromationSpace.appendChild(printOrdersInformationIntoDiv([...allOrders])) : orderInfromationSpace.appendChild(printOrdersInformationIntoDiv([...allOrders, currentOrder]));
 }
 
 
