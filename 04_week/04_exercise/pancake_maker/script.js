@@ -13,7 +13,7 @@ const syrupToppingSelector = document.querySelector('#syrup');
 const creamExtraSelector = document.querySelector('#whippedCream'); //extras
 const iceExtraSelector = document.querySelector('#iceCream');
 
-const customerName = document.querySelector('#customerName');
+const customerNameField = document.querySelector('#customerName');
 
 const deliveryOptions = document.getElementsByName('deliveryOptions');
 
@@ -170,10 +170,27 @@ const resetForm = () => {
     syrupToppingSelector.checked = false;
     creamExtraSelector.checked = false;
     iceExtraSelector.checked = false;
-    customerName.value = "";
+    customerNameField.value = "";
     deliveryOptions[0].checked = true;
     cleanUpInfoDiv();
+}
 
+const updateForm = (order) => {
+
+    const { customerName, pancakeDetails, deliveryOption, totalPrice, orderNumber } = order;
+
+    console.log(pancakeDetails);
+    //asdasd have no idea how to load index
+    typeSelector.selectedIndex = pancakeDetails[0];
+    nutsToppingSelector.checked = false;
+    bananasToppingSelector.checked = false;
+    syrupToppingSelector.checked = false;
+    creamExtraSelector.checked = false;
+    iceExtraSelector.checked = false;
+    customerNameField.value = customerName;
+    deliveryOptions[0].checked = true;
+    cleanUpInfoDiv();
+    updatePrice();
 }
 
 const createNewOrder = () => {
@@ -191,6 +208,9 @@ const completeOrder = (index) => {
 const editOrder = (index) => {
     // console.log(document.querySelector('#saveOrder').textContent);// = "asd";
     document.querySelector('#saveOrder').textContent = "Save update";
+    currentOrder = allOrders[index];
+    updateForm(currentOrder);
+
 }
 
 const printOrdersInformationIntoDiv = (ordersInQuestion) => {
@@ -246,11 +266,15 @@ const orderSummary = () => {
 }
 
 const saveOrder = () => {
-    const { customerName, pancakeDetails, deliveryOption, totalPrice } = currentOrder;
 
+    if (!currentOrder?.orderNumber) {
+        const { customerName, pancakeDetails, deliveryOption, totalPrice } = currentOrder;
 
-
-    allOrders.push(new SavedOrder(customerName, pancakeDetails, deliveryOption, totalPrice, ++ordersCreated));
+        allOrders.push(new SavedOrder(customerName, pancakeDetails, deliveryOption, totalPrice, ++ordersCreated));
+    } else {
+        document.querySelector('#saveOrder').textContent = "Make an order!";
+    }
+    // saves as a new order if it is not modified
 
     createNewOrder();
 }
