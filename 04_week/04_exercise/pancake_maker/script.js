@@ -13,7 +13,7 @@ const syrupToppingSelector = document.querySelector('#syrup');
 const creamExtraSelector = document.querySelector('#whippedCream'); //extras
 const iceExtraSelector = document.querySelector('#iceCream');
 
-const customerName = document.querySelector('#customerName');
+const customerNameField = document.querySelector('#customerName');
 
 const deliveryOptions = document.getElementsByName('deliveryOptions');
 
@@ -21,102 +21,109 @@ const orderInfromationSpace = document.querySelector('#orderInformation');
 
 const priceBanner = document.querySelector(".price-banner");
 
-/*const priceAnimation = [
-    { transform: "rotate(0) scale(1)" },
-    { transform: "rotate(360deg) scale(0)" },
-];*/
-
-
-function orderInformation(customerName, pancakeDetails, deliveryOption, totalPrice) {
-    this.customerName = customerName;
-    this.pancakeDetails = pancakeDetails;
-    this.deliveryOption = deliveryOption;
-    this.totalPrice = totalPrice;
-
-    this.getOrderInformationCustomerNameString = getOrderInformationCustomerNameString;
-    this.getOrderInformationPancakeTypeString = getOrderInformationPancakeTypeString;
-    this.getOrderInfromationToppingsAndExtrasString = getOrderInfromationToppingsAndExtrasString;
-    this.getOrderInformationDeliveryString = getOrderInformationDeliveryString;
-    this.getOrderInformationTotalPriceString = getOrderInformationTotalPriceString;
-    this.getOrderInformationString = getOrderInformationString;
-}
-
 
 let currentOrder;
+let ordersCreated = 0;
 let allOrders = [];
 let allAdditionalSelectors = [nutsToppingSelector, bananasToppingSelector, syrupToppingSelector, creamExtraSelector, iceExtraSelector];
 let totalPrice = 5;
 
-function getOrderInformationCustomerNameString() {
-    return this.customerName;
-}
+class orderInformation {
+    constructor(customerName, pancakeDetails, deliveryOption, totalPrice) {
+        this.customerName = customerName;
+        this.pancakeDetails = pancakeDetails;
+        this.deliveryOption = deliveryOption;
+        this.totalPrice = totalPrice;
+    }
 
-function getOrderInformationPancakeTypeString() {
-    switch (this.pancakeDetails[0]) {
-        case ("5"): return "Classic";
-        case ("6"): return "Chocolate";
-        case ("7"): return "Blueberry";
-    };
-}
+    getOrderInformationCustomerNameString() {
+        return this.customerName;
+    }
 
-function getOrderInfromationToppingsAndExtrasString() {
+    getOrderInformationPancakeTypeString() {
+        switch (this.pancakeDetails[0]) {
+            case (0): return "Classic";
+            case (1): return "Chocolate";
+            case (2): return "Blueberry";
+        };
+    }
 
-    let infromationString = "";
+    getOrderInfromationToppingsAndExtrasString() {
 
-    for (let selector of this.pancakeDetails.slice(1)) {
-        switch (selector) {
-            case ("nuts"): {
-                infromationString += "\nNuts";
-                break;
-            }
-            case ("bananas"): {
-                infromationString += "\nBananas";
-                break;
-            }
-            case ("syrup"): {
-                infromationString += "\nSyrup";
-                break;
-            }
-            case ("whippedCream"): {
-                infromationString += "\nWhipped Cream";
-                break;
-            }
-            case ("iceCream"): {
-                infromationString += "\nIce Cream";
-                break;
+        let infromationString = "";
+
+        for (let selector of this.pancakeDetails.slice(1)) {
+            switch (selector) {
+                case ("nuts"): {
+                    infromationString += "\nNuts";
+                    break;
+                }
+                case ("bananas"): {
+                    infromationString += "\nBananas";
+                    break;
+                }
+                case ("syrup"): {
+                    infromationString += "\nSyrup";
+                    break;
+                }
+                case ("whippedCream"): {
+                    infromationString += "\nWhipped Cream";
+                    break;
+                }
+                case ("iceCream"): {
+                    infromationString += "\nIce Cream";
+                    break;
+                }
             }
         }
+        return infromationString.trim();
     }
-    return infromationString;
-}
 
-function getOrderInformationDeliveryString() {
-    switch (this.deliveryOption) {
-        case ("eatIn"): return "Eat In";
-        case ("pickUp"): return "Pick Up";
-        case ("delivery"): return "Delivery";
+    getOrderInformationDeliveryString() {
+        switch (this.deliveryOption) {
+            case (0): return "Eat In";
+            case (1): return "Pick Up";
+            case (2): return "Delivery";
+        }
+    }
+
+    getOrderInformationTotalPriceString() {
+        return ("$" + this.totalPrice);
+    }
+
+    getOrderInformationString() {
+        let infromationString = "Customer Name: " + orderInQuestion.getOrderInformationCustomerNameString() + " \nPancake type: " +
+            orderInQuestion.getOrderInformationPancakeTypeString() + "\nToppings and Extras: " + orderInQuestion.getOrderInfromationToppingsAndExtrasString() +
+            "\nDelivery option: " + orderInQuestion.getOrderInformationDeliveryString() +
+            "\nTotal price: " + orderInQuestion.getOrderInformationTotalPriceString();
+
+        return infromationString;
     }
 }
 
-function getOrderInformationTotalPriceString() {
-    return ("$" + this.totalPrice);
+class SavedOrder extends orderInformation {
+    constructor(customerName, pancakeDetails, deliveryOption, totalPrice, orderNumber) {
+        super(customerName, pancakeDetails, deliveryOption, totalPrice);
+        this.orderNumber = orderNumber;
+    }
+
 }
 
-function getOrderInformationString() {
-    let infromationString = "Customer Name: " + orderInQuestion.getOrderInformationCustomerNameString() + " \nPancake type: " +
-        orderInQuestion.getOrderInformationPancakeTypeString() + "\nToppings and Extras: " + orderInQuestion.getOrderInfromationToppingsAndExtrasString() +
-        "\nDelivery option: " + orderInQuestion.getOrderInformationDeliveryString() +
-        "\nTotal price: " + orderInQuestion.getOrderInformationTotalPriceString();
+const changePancakePic = (number) =>
+    document.querySelector("#main-picture").src =
+    (number == 0) ? "assets/pexels-ash-craig-122861-376464.jpg" :
+        (number == 1) ? "assets/pexels-gabby-k-7144669.jpg" : "assets/pexels-pixabay-236804.jpg";
 
-    return infromationString;
-}
 
 const updateOrderData = () => {
-    let pancakeDetails = [typeSelector.value];
+    // let pancakeDetails = [typeSelector.value];
+    let pancakeDetails = [typeSelector.selectedIndex];
+    changePancakePic(typeSelector.selectedIndex);
+
     for (let selector of allAdditionalSelectors) (selector.checked) && pancakeDetails.push(selector.id);
 
     let chosenDeliveryOption;
-    for (let deliveryOption of deliveryOptions) (deliveryOption.checked) && (chosenDeliveryOption = deliveryOption.id);
+    deliveryOptions.forEach((deliveryOption, index) => (deliveryOption.checked) && (chosenDeliveryOption = index));
 
     currentOrder.customerName = customerName.value;
     currentOrder.pancakeDetails = pancakeDetails;
@@ -145,8 +152,6 @@ const updatePrice = () => {
 
     for (let totalPriceField of totalPriceFields) totalPriceField.textContent = '$' + totalPrice;
 
-    //totalPriceFields[0].classList.toggle("shake");
-
     updateOrderData();
 
 }
@@ -159,56 +164,140 @@ const cleanUpInfoDiv = () => {
 
 }
 
-const createOrder = () => {
+const resetForm = () => {
+    typeSelector.selectedIndex = 0;
+    nutsToppingSelector.checked = false;
+    bananasToppingSelector.checked = false;
+    syrupToppingSelector.checked = false;
+    creamExtraSelector.checked = false;
+    iceExtraSelector.checked = false;
+    customerNameField.value = "";
+    deliveryOptions[0].checked = true;
+    cleanUpInfoDiv();
+}
+
+const updateForm = (order) => {
+
+    const { customerName, pancakeDetails, deliveryOption, totalPrice, orderNumber } = order;
+
+    //asdasd have no idea how to load index
+    typeSelector.selectedIndex = pancakeDetails[0];
+
+    const options = order.getOrderInfromationToppingsAndExtrasString();
+
+    nutsToppingSelector.checked = options.includes("Nuts");
+    bananasToppingSelector.checked = options.includes("Bananas");
+    syrupToppingSelector.checked = options.includes("Syrup");
+    creamExtraSelector.checked = options.includes("Whipped Cream");
+    iceExtraSelector.checked = options.includes("Ice Cream");
+    customerNameField.value = customerName;
+    deliveryOptions[deliveryOption].checked = true;
+    console.log(deliveryOption);
+    cleanUpInfoDiv();
+    updatePrice();
+}
+
+const createNewOrder = () => {
+
+    resetForm();
     currentOrder = new orderInformation;
-    updateOrderData();
+    updatePrice();
 }
 
-const printOrderInformationIntoDiv = (orderInQuestion, divCreated) => {
-
-    let firstColumn = ["Customer Name: ", "Pancake Type: ", "Toppings and Extras", "Delivery: ", "Total Price: "];
-    let secondColumn = [orderInQuestion.getOrderInformationCustomerNameString(),
-    orderInQuestion.getOrderInformationPancakeTypeString(),
-    orderInQuestion.getOrderInfromationToppingsAndExtrasString(),
-    orderInQuestion.getOrderInformationDeliveryString(),
-    orderInQuestion.getOrderInformationTotalPriceString()];
-
-    let tableRow, tableCell;
-
-    for (let i = 0; i < firstColumn.length; i++) {
-        tableRow = document.createElement('tr');
-        tableCell = document.createElement('td');
-        tableCell.textContent = firstColumn[i];
-        tableRow.appendChild(tableCell);
-
-        tableCell = document.createElement('td');
-        tableCell.textContent = secondColumn[i];
-        tableRow.appendChild(tableCell);
-        divCreated.appendChild(tableRow);
-    }
-    return divCreated;
+const completeOrder = (index) => {
+    (allOrders[index] == currentOrder) && createNewOrder();
+    allOrders.splice(index, 1);
+    showAllOrders();
 }
+
+const editOrder = (index) => {
+    // console.log(document.querySelector('#saveOrder').textContent);// = "asd";
+    document.querySelector('#saveOrder').textContent = "Save update";
+    currentOrder = allOrders[index];
+    updateForm(currentOrder);
+
+}
+
+const printOrdersInformationIntoDiv = (ordersInQuestion) => {
+
+    let table = document.createElement('table');
+    const firstRow = ["Order Number", "Customer Name ", "Pancake Type ", "Toppings and Extras", "Delivery ", "Total Price ", "Actions"];
+    const tableRow = table.insertRow(-1);
+    firstRow.forEach((item) => tableRow.insertCell(-1).textContent = item);
+
+    ordersInQuestion.forEach((orderInQuestion) => {
+        const tableRow = table.insertRow(-1);
+        const orderNumber = orderInQuestion?.orderNumber || "pending";
+        tableRow.insertCell(-1).textContent = orderNumber;
+        tableRow.insertCell(-1).textContent = orderInQuestion.getOrderInformationCustomerNameString();
+        tableRow.insertCell(-1).textContent = orderInQuestion.getOrderInformationPancakeTypeString();
+        tableRow.insertCell(-1).textContent = orderInQuestion.getOrderInfromationToppingsAndExtrasString();
+        tableRow.insertCell(-1).textContent = orderInQuestion.getOrderInformationDeliveryString();
+        tableRow.insertCell(-1).textContent = orderInQuestion.getOrderInformationTotalPriceString();
+
+        if (orderNumber != "pending") {
+            const buttonTableCell = tableRow.insertCell(-1);
+            const completeButton = document.createElement('input');
+            buttonTableCell.appendChild(completeButton);
+
+            completeButton.type = "button";
+            completeButton.value = "Complete";
+            completeButton.id = "complete-button";
+            completeButton.addEventListener("click", (ev) => {
+                completeOrder(tableRow.rowIndex - 1);
+            });
+
+            const editButton = document.createElement('input');
+            buttonTableCell.appendChild(editButton);
+
+            editButton.type = "button";
+            editButton.value = "Edit";
+            editButton.id = "edit-button";
+            editButton.addEventListener("click", (ev) => {
+                editOrder(tableRow.rowIndex - 1);
+            });
+        } else {
+            const buttonTableCell = tableRow.insertCell(-1);
+            const resetButton = document.createElement('input');
+            buttonTableCell.appendChild(resetButton);
+
+            resetButton.type = "button";
+            resetButton.value = "Reset";
+            resetButton.id = "reset-button";
+            resetButton.addEventListener("click", (ev) => {
+                createNewOrder();
+            });
+        }
+
+    });
+
+    return table;
+}
+
 
 const orderSummary = () => {
 
     cleanUpInfoDiv();
-
-    let overallTable = document.createElement('table');
-
-    let orderInformationOutput = printOrderInformationIntoDiv(currentOrder, document.createElement('tbody'));
-    overallTable.appendChild(orderInformationOutput);
-    orderInfromationSpace.appendChild(overallTable);
+    orderInfromationSpace.appendChild(printOrdersInformationIntoDiv([currentOrder]));
 }
 
 const saveOrder = () => {
 
-    allOrders.push(currentOrder);
-    createOrder();
+    if (!currentOrder?.orderNumber) {
+        const { customerName, pancakeDetails, deliveryOption, totalPrice } = currentOrder;
+
+        allOrders.push(new SavedOrder(customerName, pancakeDetails, deliveryOption, totalPrice, ++ordersCreated));
+    } else {
+        document.querySelector('#saveOrder').textContent = "Make an order!";
+    }
+    // saves as a new order if it is not modified
+
+    createNewOrder();
 }
 
 const showAllOrders = () => {
-    //for (let order in allOrders) 
-    console.log("show");
+    cleanUpInfoDiv();
+    currentOrder?.orderNumber ? orderInfromationSpace.appendChild(printOrdersInformationIntoDiv([...allOrders])) : orderInfromationSpace.appendChild(printOrdersInformationIntoDiv([...allOrders, currentOrder]));
 }
 
 
@@ -218,4 +307,4 @@ document.querySelector('#orderSummary').addEventListener('click', orderSummary);
 document.querySelector('#saveOrder').addEventListener('click', saveOrder);
 document.querySelector('#allOrders').addEventListener('click', showAllOrders);
 
-createOrder();
+createNewOrder();
