@@ -21,6 +21,9 @@ const orderInfromationSpace = document.querySelector('#orderInformation');
 
 const priceBanner = document.querySelector(".price-banner");
 
+const overlay = document.querySelector(".overlay");
+
+
 
 let currentOrder;
 let ordersCreated = 0;
@@ -212,7 +215,7 @@ const completeOrder = (index) => {
 
 const editOrder = (index) => {
     // console.log(document.querySelector('#saveOrder').textContent);// = "asd";
-    document.querySelector('#saveOrder').textContent = "Save update";
+    document.querySelector('#saveOrder').textContent = "End updating";
     currentOrder = allOrders[index];
     updateForm(currentOrder);
 
@@ -300,11 +303,34 @@ const showAllOrders = () => {
     currentOrder?.orderNumber ? orderInfromationSpace.appendChild(printOrdersInformationIntoDiv([...allOrders])) : orderInfromationSpace.appendChild(printOrdersInformationIntoDiv([...allOrders, currentOrder]));
 }
 
+const toggleModal = () => {
+    const delay = 1000;
+    setTimeout(() => overlay.classList.toggle('visible'), delay);
+    //overlay.classList.toggle('visible');
+}
 
-wholeForm.addEventListener('input', updatePrice);
+/*
+function debounce(func, delay) {
+  let inDebounce;
+  return function () {
+    const context = this;
+    const args = arguments;
+    clearTimeout(inDebounce);
+    inDebounce = setTimeout(() => func.apply(context, args), delay);
+  };
+}
+
+*/
+
+wholeForm.addEventListener('change', updatePrice);
 
 document.querySelector('#orderSummary').addEventListener('click', orderSummary);
 document.querySelector('#saveOrder').addEventListener('click', saveOrder);
 document.querySelector('#allOrders').addEventListener('click', showAllOrders);
+
+document.querySelector("#about").addEventListener("click", toggleModal);
+overlay.addEventListener("click", toggleModal);
+document.querySelector("#closeButton").addEventListener("click", toggleModal);
+
 
 createNewOrder();

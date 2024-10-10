@@ -54,16 +54,37 @@
         <h3>Total Price: <span id="totalPrice">$5</span></h3>
       </div>
       <div class="buttons">
-        <button type="submit" id="orderSummary">Order Summary</button>
+        <button type="submit" id="orderSummary">Order summary</button>
         <button type="submit" id="saveOrder">Make an order!</button>
-        <button type="submit" id="allOrders">Show All Orders</button>
+        <button type="submit" id="allOrders">Show all orders</button>
       </div>
       <div id="orderInformation" style="overflow-x: auto;">
 
       </div>
     </div>
-    <button type="button" id="about">About</button>
   </div>
+  <button type="button" id="about">About</button>
+  <div class="overlay">
+    <div class="modal">
+      <h3>About Pancakes</h3>
+      <p>
+        <i>They are really good.</i> <br><br>
+      </p>
+      <ul>
+        <li>You can customize your pancake.</li>
+        <li>"Order Summary" button displays a brief overview of your current order in a table.</li>
+        <li>"Make an Order" button saves it to the system.</li>
+        <li>"Show All Orders" button lists all saved orders, marking the current one as pending.</li>
+        <li>"Reset" cleans the current order</li>
+        <li>"Complete" deletes orders.</li>
+        <li>Modify order via "Edit", and save changes with the "Update Order" button.</li>
+      </ul>
+
+      <button id="closeButton">Close</button>
+
+    </div>
+  </div>
+
   <script src=" script.js">
   </script>
 </body>

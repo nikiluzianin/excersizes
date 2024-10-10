@@ -111,6 +111,38 @@ td {
   padding: 10px;
 }
 
+#about {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.overlay {
+  background-color: rgba(0, 0, 0, 0.6);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+.overlay.visible {
+  display: flex;
+}
+
+.modal {
+  background-color: white;
+  color: #333;
+  border-radius: 5px;
+  box-shadow: 0 0 5px #333;
+  padding: 2rem;
+  width: 80vw;
+  position: relative;
+}
+
 @media only screen and (max-width: 720px) {
 
   body {
